@@ -3,7 +3,7 @@ import React, {ChangeEvent, KeyboardEvent} from "react";
 type InputType = {
     newTitle: string
     setNewTitle: (newTitle: string) => void
-    addNewTaskHandler: () => void
+    callBack: () => void
 }
 
 export const Input = (props: InputType) => {
@@ -13,7 +13,7 @@ export const Input = (props: InputType) => {
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
-            props.addNewTaskHandler()
+            props.callBack()
         }
     }
 

@@ -38,7 +38,7 @@ export function Todolist(props: PropsType) {
     return <div>
         <h3>{props.title}</h3>
         <div>
-            <Input newTitle={newTitle} setNewTitle={setNewTitle} addNewTaskHandler={addNewTaskHandler}/>
+            <Input newTitle={newTitle} setNewTitle={setNewTitle} callBack={addNewTaskHandler}/>
             <Button name={"+"} callBack={addNewTaskHandler}/>
 
             {/*
