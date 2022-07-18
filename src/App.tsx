@@ -51,7 +51,8 @@ function App() {
                       removeTask={removeTask}
                       addTask={addTask}
                       setFilter={setFilter}
-                      onChangeIsDone={onChangeIsDone}/>
+                      onChangeIsDone={onChangeIsDone}
+                      filter={filter}/>
         </div>
     );
 }

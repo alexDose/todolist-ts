@@ -1,8 +1,11 @@
 import React from "react";
+import {FilterValuesType} from "../App";
 
 type ButtonType = {
     name: string
     callBack: () => void
+    style: string | undefined
+
 }
 
 export const Button = (props: ButtonType) => {
@@ -13,6 +16,6 @@ export const Button = (props: ButtonType) => {
 
     return  (
 
-        <button onClick={onClickHandler}>{props.name}</button>
+        <button className={props.style} onClick={onClickHandler}>{props.name}</button>
     )
 }
