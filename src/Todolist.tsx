@@ -10,12 +10,13 @@ type TaskType = {
 }
 
 type PropsType = {
+    id: string
     title: string
     tasks: Array<TaskType>
-    removeTask: (id: string) => void
-    addTask: (newTitle: string) => void
-    setFilter: (value: FilterValuesType) => void
-    onChangeIsDone: (id: string, isDone: boolean) => void
+    removeTask: (id: string, todoId: string) => void
+    addTask: (newTitle: string, todoId: string) => void
+    changeFilter: (value: FilterValuesType, id: string) => void
+    onChangeIsDone: (id: string, isDone: boolean, todoId: string) => void
     filter: FilterValuesType
 }
 
@@ -30,21 +31,21 @@ export function Todolist(props: PropsType) {
         }
         if (newTitle.trim() !== "") {
             setError("")
-            props.addTask(newTitle.trim())
+            props.addTask(newTitle.trim(), props.id)
             setNewTitle("")
         }
     }
 
-    const changeFilter = (value: FilterValuesType) => {
-        props.setFilter(value)
+    const changeFilter = (value: FilterValuesType, id: string) => {
+        props.changeFilter(value, id)
     }
 
-    const onClickHandler = (id: string) => {
-        props.removeTask(id)
+    const onClickHandler = (id: string, todoId: string) => {
+        props.removeTask(id, todoId)
     }
 
     const onChangeIsDone = (id: string, isDone: boolean) => {
-        props.onChangeIsDone(id, isDone)
+        props.onChangeIsDone(id, isDone, props.id)
     }
 
     return <div>
@@ -62,7 +63,7 @@ export function Todolist(props: PropsType) {
         <ul>
             {
                 props.tasks.map(t => <li key={t.id}>
-                    <Button style={t.isDone ? "isDone" : ""} name={"X"} callBack={() => onClickHandler(t.id)}/>
+                    <Button style={t.isDone ? "isDone" : ""} name={"X"} callBack={() => onClickHandler(t.id, props.id)}/>
                     {/*
                     <button onClick={() => onClickHandler(t.id)
                     }>x
@@ -77,13 +78,13 @@ export function Todolist(props: PropsType) {
         </ul>
         <div>
             <Button style={props.filter === "all" ? "activeFilter" : ""} name={"All"} callBack={() => {
-                changeFilter("all")
+                changeFilter("all", props.id)
             }}/>
             <Button style={props.filter === "active" ? "activeFilter" : ""} name={"Active"} callBack={() => {
-                changeFilter("active")
+                changeFilter("active", props.id)
             }}/>
             <Button style={props.filter === "completed" ? "activeFilter" : ""} name={"Completed"} callBack={() => {
-                changeFilter("completed")
+                changeFilter("completed", props.id)
             }}/>
             {/*
             <button onClick={() => {
