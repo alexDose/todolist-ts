@@ -18,6 +18,7 @@ type PropsType = {
     changeFilter: (value: FilterValuesType, id: string) => void
     onChangeIsDone: (id: string, isDone: boolean, todoId: string) => void
     filter: FilterValuesType
+    removeTodolist: (id: string) => void
 }
 
 export function Todolist(props: PropsType) {
@@ -48,8 +49,12 @@ export function Todolist(props: PropsType) {
         props.onChangeIsDone(id, isDone, props.id)
     }
 
+    const removeTodolist = () => {
+        props.removeTodolist(props.id)
+    }
+
     return <div>
-        <h3>{props.title}</h3>
+        <h3><Button name={"X"} callBack={removeTodolist} style={""}/>{props.title}</h3>
         <div>
             <Input style={error ? "message-error" : ""} newTitle={newTitle} setNewTitle={setNewTitle}
                    callBack={addNewTaskHandler} setError={setError}/>
