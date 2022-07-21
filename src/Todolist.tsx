@@ -12,6 +12,7 @@ type TaskType = {
 type PropsType = {
     idT: string
     title: string
+    filter: FilterValuesType
     tasks: Array<TaskType>
     removeTask: (idT: string, id: string) => void
     addTask: (idT: string, newTitle: string) => void
@@ -22,10 +23,18 @@ type PropsType = {
 export function Todolist(props: PropsType) {
 
     const [newTitle, setNewTitle] = useState("")
+    const [error, setError] = useState<string | null>(null)
 
     const addNewTaskHandler = () => {
-        props.addTask(props.idT, newTitle)
-        setNewTitle("")
+        if (!newTitle.trim()) {
+            setError("Field is required!")
+        }
+        if (newTitle.trim()) {
+            setError("")
+            props.addTask(props.idT, newTitle.trim())
+            setNewTitle("")
+        }
+
     }
 
     const changeFilter = (value: FilterValuesType) => {
@@ -43,56 +52,32 @@ export function Todolist(props: PropsType) {
     return <div>
         <h3>{props.title}</h3>
         <div>
-            <Input newTitle={newTitle} setNewTitle={setNewTitle} callBack={addNewTaskHandler}/>
-            <Button name={"+"} callBack={addNewTaskHandler}/>
+            <Input setError={setError} style={error ? "message-error" : ""} newTitle={newTitle} setNewTitle={setNewTitle} callBack={addNewTaskHandler}/>
+            <Button style={""} name={"+"} callBack={addNewTaskHandler}/>
+            {error && <div className={"error"}>{error}</div>}
 
-            {/*
-            <button onClick={addNewTaskHandler}>+</button>
-*/}
         </div>
         <ul>
             {
-                props.tasks.map(t => <li key={t.id}>
-                    <Button name={"X"} callBack={() => onClickHandler(t.id)}/>
-                    {/*
-                    <button onClick={() => onClickHandler(t.id)
-                    }>x
-                    </button>
-*/}
+                props.tasks.map(t => <li className={t.isDone ? "isDone" : ""} key={t.id}>
+                    <Button style={"del"} name={"X"} callBack={() => onClickHandler(t.id)}/>
                     <input type="checkbox"
                            onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeIsDone(t.id, e.currentTarget.checked)}
                            checked={t.isDone}/>
-                    <span>{t.title}</span>
+                    <span className={t.isDone ? "classGreen" : "classHotpink"}>{t.title}</span>
                 </li>)
             }
         </ul>
         <div>
-            <Button name={"All"} callBack={() => {
+            <Button style={props.filter === "all" ? "activeFilter" : ""} name={"All"} callBack={() => {
                 changeFilter("all")
             }}/>
-            <Button name={"Active"} callBack={() => {
+            <Button style={props.filter === "active" ? "activeFilter" : ""} name={"Active"} callBack={() => {
                 changeFilter("active")
             }}/>
-            <Button name={"Completed"} callBack={() => {
+            <Button style={props.filter === "completed" ? "activeFilter" : ""} name={"Completed"} callBack={() => {
                 changeFilter("completed")
             }}/>
-            {/*
-            <button onClick={() => {
-                changeFilter("all")
-            }}>
-                All
-            </button>
-            <button onClick={() => {
-                changeFilter("active")
-            }}>
-                Active
-            </button>
-            <button onClick={() => {
-                changeFilter("completed")
-            }}>
-                Completed
-            </button>
-*/}
         </div>
     </div>
 }

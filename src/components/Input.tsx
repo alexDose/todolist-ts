@@ -4,6 +4,8 @@ type InputType = {
     newTitle: string
     setNewTitle: (newTitle: string) => void
     callBack: () => void
+    style: string | undefined
+    setError: (error: string) => void
 }
 
 export const Input = (props: InputType) => {
@@ -13,12 +15,13 @@ export const Input = (props: InputType) => {
     }
 
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        props.setError("")
         if (e.key === "Enter") {
             props.callBack()
         }
     }
 
     return (
-        <input onKeyDown={onKeyPressHandler} onChange={onChangeHandler} value={props.newTitle}/>
+        <input className={props.style} onKeyDown={onKeyPressHandler} onChange={onChangeHandler} value={props.newTitle}/>
     )
 }

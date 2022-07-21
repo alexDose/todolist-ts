@@ -6,3 +6,31 @@
 .App > div {
   margin-right: 50px;
 }
+
+.error {
+  color: red;
+}
+
+.message-error {
+  border: 1px solid red;
+}
+
+.isDone {
+  opacity: 0.5;
+}
+
+.classGreen {
+  color: green;
+}
+
+.classHotpink {
+  color: hotpink;
+}
+
+.activeFilter {
+  background: aquamarine;
+}
+
+.del {
+  background: lightpink;
+}
