@@ -5,7 +5,7 @@ import {v1} from 'uuid';
 
 export type FilterValuesType = "all" | "active" | "completed";
 
-type TodolistsType = {
+export type TodolistsType = {
     id: string
     title: string
     filter: FilterValuesType
@@ -61,29 +61,14 @@ function App() {
 
     return (
         <div className="App">
-            {todolists.map(el => {
-                let tasksForTodolist = tasks[el.id];
-
-                if (el.filter === "active") {
-                    tasksForTodolist = tasks[el.id].filter(t => !t.isDone);
-                }
-                if (el.filter === "completed") {
-                    tasksForTodolist = tasks[el.id].filter(t => t.isDone);
-                }
-
-                return <Todolist
-                    key={el.id}
-                    todolistID={el.id}
-                    title={el.title}
-                    tasks={tasksForTodolist}
-                    removeTask={removeTask}
-                    changeFilter={changeFilter}
-                    addTask={addTask}
-                    changeTaskStatus={changeStatus}
-                    filter={el.filter}
-                    removeTodolist={removeTodolist}
-                />
-            })}
+            <Todolist todolists={todolists}
+                      removeTask={removeTask}
+                      changeFilter={changeFilter}
+                      addTask={addTask}
+                      changeTaskStatus={changeStatus}
+                      removeTodolist={removeTodolist}
+                      tasks={tasks}
+            />
         </div>
     );
 }
